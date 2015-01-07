@@ -1,0 +1,57 @@
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #D9D9D9;
+    shape-rendering: crispEdges;
+}
+
+.x.axis path {
+    stroke: #D9D9D9;
+    shape-rendering: crispEdges;
+}
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+.rect {
+    fill: rgba(217, 217, 217, 0.1);
+    stroke: rgba(217, 217, 217, 0.2);
+}
+
+
+g.context rect.background {
+    fill: transparent;
+    visibility: visible !important;
+}
+
+g.context g.brush rect.background {
+    fill: rgba(1, 1, 1, 0.5);
+}
+
+g.context g.axis path {
+    stroke-opacity: 0;
+}
+
+g.context g.brush rect.background {
+    fill: transparent;
+}
+
+g.context g.brush rect.extent {
+    stroke: #ffffff;
+    fill-opacity: .25;
+    shape-rendering: crispEdges;
+    z-index: 3;
+}
+
+g.context g.axis line {
+    stroke-opacity: 0.1;
+}
+
+svg {
+    font-family: 'Helvetica','Lato', Arial, serif;
+    font-size: 9px;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+    border: 1px solid rgba(217, 217, 217, 0.2);
+}
