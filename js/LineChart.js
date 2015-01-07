@@ -19,6 +19,17 @@ function LineChart (options) {
     _self.width = (800 - _self.margin.left - _self.margin.right),
         _self.height = (680 - _self.margin.top - _self.margin.bottom);
 
+
+    _self.metaData = {
+        chart: "Line",
+        margin: _self.margin,
+        width: _self.width,
+        height:_self.height,
+        range: "Dates"
+    }
+
+
+    
     _self.div = d3.select("body").append("div").attr("id", "chart_"+_self.symbol);
 
     _self.svg = _self.div.append("svg")
@@ -111,5 +122,12 @@ function LineChart (options) {
         .attr("font-size", "11px");
 
 
+    //make QR code with the chart
+    _self.qrcode = new QRCode(document.getElementById("qrcode"), {
+        width : 1000,
+        height : 1000
+    });
+
+    _self.qrcode.makeCode();
 
 }
