@@ -57,7 +57,6 @@ if (typeof MediaStreamTrack === 'undefined'){
 } else {
 
     MediaStreamTrack.getSources(gotSources);
-
 }
 
 if (isCanvasSupported() && window.File && window.FileReader) {
