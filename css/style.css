@@ -55,3 +55,17 @@ svg {
     text-shadow: 0 1px 1px rgba(255,255,255,0.8);
     border: 1px solid rgba(217, 217, 217, 0.2);
 }
+
+#qrcode {
+    width:100px;
+    height:100px;
+    position: absolute;
+    margin-top: 0px;
+    margin-left: 350px;
+}
+
+#qr-canvas {
+    width: 800px;
+    height: 600px;
+    visibility: hidden;
+}

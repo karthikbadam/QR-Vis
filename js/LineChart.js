@@ -28,8 +28,6 @@ function LineChart (options) {
         range: "Dates"
     }
 
-
-    
     _self.div = d3.select("body").append("div").attr("id", "chart_"+_self.symbol);
 
     _self.svg = _self.div.append("svg")
@@ -124,10 +122,10 @@ function LineChart (options) {
 
     //make QR code with the chart
     _self.qrcode = new QRCode(document.getElementById("qrcode"), {
-        width : 1000,
-        height : 1000
+        width : 100,
+        height : 100
     });
 
-    _self.qrcode.makeCode();
+    _self.qrcode.makeCode(_self.metaData);
 
 }
