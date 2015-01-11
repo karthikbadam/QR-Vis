@@ -2,6 +2,7 @@
  * Created by karthik on 1/8/15.
  */
 
+    //figure out connections in Wifi!
 var gCtx = null;
 var gCanvas = null;
 var c = 0;
@@ -50,20 +51,12 @@ function gotSources(sourceInfos) {
     }
 }
 
-if (typeof MediaStreamTrack === 'undefined'){
-
-    alert('This browser does not support MediaStreamTrack.\n\nTry Chrome Canary.');
-
-} else {
-
-    MediaStreamTrack.getSources(gotSources);
-}
-
-if (isCanvasSupported() && window.File && window.FileReader) {
+if (isCanvasSupported() && window.File && window.FileReader && typeof MediaStreamTrack != 'undefined') {
 
     initCanvas(800, 600);
     qrcode.callback = read;
     document.getElementById("mainbody").style.display = "inline";
+    MediaStreamTrack.getSources(gotSources);
     setwebcam();
 
 } else {
@@ -114,6 +107,7 @@ function handleFiles(f) {
                 qrcode.decode(e.target.result);
             };
         })(f[i]);
+
         reader.readAsDataURL(f[i]);
     }
 }
@@ -202,14 +196,12 @@ function setwebcam() {
     document.getElementById("outdiv").innerHTML = vidhtml;
     v = document.getElementById("v");
 
-    if (stype == 1) {
-        return;
-    }
-
     var audioSource = audioSelect.value;
     var videoSource = videoSelect.value;
     var constraints = {
-        audio: false,
+        audio: {
+            optional: [{sourceId: audioSource}]
+        },
         video: {
             optional: [{sourceId: videoSource}]
         }
@@ -238,6 +230,10 @@ function setwebcam() {
 
     setTimeout(captureToCanvas, 500);
 }
+
+
+audioSelect.onchange = setwebcam;
+videoSelect.onchange = setwebcam;
 
 function setimg() {
 
