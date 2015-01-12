@@ -2,7 +2,6 @@
  * Created by karthik on 1/8/15.
  */
 
-    //figure out connections in Wifi!
 var gCtx = null;
 var gCanvas = null;
 var c = 0;
@@ -53,11 +52,12 @@ function gotSources(sourceInfos) {
 
 if (isCanvasSupported() && window.File && window.FileReader && typeof MediaStreamTrack != 'undefined') {
 
+    setwebcam();
+
     initCanvas(800, 600);
     qrcode.callback = read;
     document.getElementById("mainbody").style.display = "inline";
     MediaStreamTrack.getSources(gotSources);
-    setwebcam();
 
 } else {
 
@@ -65,7 +65,6 @@ if (isCanvasSupported() && window.File && window.FileReader && typeof MediaStrea
     document.getElementById("mainbody").innerHTML = '<p id="mp1">QR code scanner for HTML5 capable browsers</p><br>' +
         '<br><p id="mp2">sorry your browser is not supported</p><br><br>' +
         '<p id="mp1">try <a href="http://www.mozilla.com/firefox"><img src="firefox.png"/></a> or <a href="http://chrome.google.com"><img src="chrome_logo.gif"/></a> or <a href="http://www.opera.com"><img src="Opera-logo.png"/></a></p>';
-
 }
 
 
@@ -171,17 +170,19 @@ function isCanvasSupported() {
 }
 
 function success(stream) {
+    window.stream = stream; // make stream available to console
 
-    if (webkit)
+    if (webkit) {
         v.src = window.webkitURL.createObjectURL(stream);
-    else if (moz) {
+        v.play();
+    } else if (moz) {
         v.mozSrcObject = stream;
         v.play();
     }
     else
         v.src = stream;
     gUM = true;
-    setTimeout(captureToCanvas, 500);
+    //setTimeout(captureToCanvas, 500);
 
 }
 
@@ -192,9 +193,14 @@ function error(error) {
 
 function setwebcam() {
 
+
     var n = navigator;
     document.getElementById("outdiv").innerHTML = vidhtml;
     v = document.getElementById("v");
+    if (!!window.stream) {
+        v.src = null;
+        window.stream.stop();
+    }
 
     var audioSource = audioSelect.value;
     var videoSource = videoSelect.value;
@@ -228,12 +234,55 @@ function setwebcam() {
 
     stype = 1;
 
-    setTimeout(captureToCanvas, 500);
+    //setTimeout(captureToCanvas, 500);
+}
+
+function replaceWebcam() {
+    var n = navigator;
+    v = document.getElementById("v");
+    if (!!window.stream) {
+        v.src = null;
+        window.stream.stop();
+    }
+
+    var audioSource = audioSelect.value;
+    var videoSource = videoSelect.value;
+    var constraints = {
+        audio: {
+            optional: [{sourceId: audioSource}]
+        },
+        video: {
+            optional: [{sourceId: videoSource}]
+        }
+    };
+
+    if (n.getUserMedia) {
+
+        n.getUserMedia(constraints, success, error);
+
+    } else if (n.webkitGetUserMedia) {
+
+        webkit = true;
+        n.webkitGetUserMedia(constraints, success, error);
+
+    } else if (n.mozGetUserMedia) {
+
+        moz = true;
+        n.mozGetUserMedia(constraints, success, error);
+
+    }
+
+    document.getElementById("qrimg").style.opacity = 0.2;
+    document.getElementById("webcamimg").style.opacity = 1.0;
+
+    stype = 1;
+
+    //setTimeout(captureToCanvas, 500);
 }
 
 
-audioSelect.onchange = setwebcam;
-videoSelect.onchange = setwebcam;
+audioSelect.onchange = replaceWebcam;
+videoSelect.onchange = replaceWebcam;
 
 function setimg() {
 
