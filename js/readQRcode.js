@@ -182,7 +182,8 @@ function success(stream) {
     else
         v.src = stream;
     gUM = true;
-    //setTimeout(captureToCanvas, 500);
+
+    setTimeout(captureToCanvas, 500);
 
 }
 
@@ -204,10 +205,17 @@ function setwebcam() {
 
     var audioSource = audioSelect.value;
     var videoSource = videoSelect.value;
+//    var constraints = {
+//        audio: {
+//            optional: [{sourceId: audioSource}]
+//        },
+//        video: {
+//            optional: [{sourceId: videoSource}]
+//        }
+//    };
+
     var constraints = {
-        audio: {
-            optional: [{sourceId: audioSource}]
-        },
+        audio: false,
         video: {
             optional: [{sourceId: videoSource}]
         }
@@ -234,7 +242,7 @@ function setwebcam() {
 
     stype = 1;
 
-    //setTimeout(captureToCanvas, 500);
+    setTimeout(captureToCanvas, 500);
 }
 
 function replaceWebcam() {
@@ -247,10 +255,9 @@ function replaceWebcam() {
 
     var audioSource = audioSelect.value;
     var videoSource = videoSelect.value;
+
     var constraints = {
-        audio: {
-            optional: [{sourceId: audioSource}]
-        },
+        audio: false,
         video: {
             optional: [{sourceId: videoSource}]
         }
@@ -277,7 +284,7 @@ function replaceWebcam() {
 
     stype = 1;
 
-    //setTimeout(captureToCanvas, 500);
+    setTimeout(captureToCanvas, 500);
 }
 
 
