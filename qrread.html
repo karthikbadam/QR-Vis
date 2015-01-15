@@ -8,6 +8,7 @@
 
     <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/cameraQR.css" />
 
     <script type="text/javascript" src="js/grid.js"></script>
@@ -32,19 +33,22 @@
 <body>
 
 <div class="container">
-    <div> Capture </div>
-    <div> Analyze </div>
+    <div class="row">
+        <div class="col-xs-6"> Capture </div>
+        <div class="col-xs-6"> Analyze </div>
+    </div>
 </div>
 
-<div id="camera">
-    <div class="select">
-        <label for="audioSource">Audio source: </label><select id="audioSource"></select>
-    </div>
+<div id="camera" class="container">
+    <div class="row">
+        <div class="select col-md-6 form-group">
+            <label for="audioSource">Audio source: </label><select id="audioSource"></select>
+        </div>
 
-    <div class="select">
-        <label for="videoSource">Video source: </label><select id="videoSource"></select>
+        <div class="select col-md-6 form-group">
+            <label for="videoSource">Video source: </label><select id="videoSource"></select>
+        </div>
     </div>
-
 </div>
 
 <div id="workspace">
