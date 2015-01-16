@@ -1,6 +1,64 @@
 
-@media all and (max-width: 1024px) {
+body {
+    font-family: garamond;
+    font-size: 16px;
+}
 
+.btn {
+    width: 100%;
+}
+
+.btn-div {
+    padding: 0px;
+}
+
+#audioSource {
+    background: transparent;
+    width:50%;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1;
+    border: 0;
+    border-radius: 0;
+    height: 34px;
+    text-align: center;
+}
+
+#videoSource {
+    background: transparent;
+    width:50%;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1;
+    border: 0;
+    border-radius: 0;
+    height: 34px;
+    text-align: center;
+}
+
+.info-source {
+    text-align: center;
 
 }
 
+#camera {
+    background-color: lightcyan;
+}
+
+.tsel {
+    width: 100%;
+}
+
+#v {
+    width: 100%;
+}
+
+.selector {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#outdiv {
+    position: absolute;
+    
+}
