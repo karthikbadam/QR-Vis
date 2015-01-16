@@ -10,6 +10,7 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/cameraQR.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
 
     <script type="text/javascript" src="js/grid.js"></script>
     <script type="text/javascript" src="js/version.js"></script>
@@ -34,49 +35,55 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-6"> Capture </div>
-        <div class="col-xs-6"> Analyze </div>
+        <div class="col-xs-6 btn-div"> <button class="btn"> Capture </button></div>
+        <div class="col-xs-6 btn-div"> <button class="btn"> Analyze </button></div>
     </div>
 </div>
 
 <div id="camera" class="container">
     <div class="row">
-        <div class="select col-md-6 form-group">
+        <div class="select col-md-6 info-source">
             <label for="audioSource">Audio source: </label><select id="audioSource"></select>
         </div>
 
-        <div class="select col-md-6 form-group">
+        <div class="select col-md-6 info-source">
             <label for="videoSource">Video source: </label><select id="videoSource"></select>
         </div>
     </div>
+
+    <div id="workspace" class="row">
+        <div class="select col-md-12">
+        <table border="0" width="100%">
+            <tbody><tr>
+                <td valign="top" align="center" width="100%">
+                    <table class="tsel" border="0">
+                        <tbody><tr>
+                            <td><img class="selector" id="webcamimg" src="images/vid.png" onclick="setwebcam()" align="left" style="opacity: 1;"></td>
+                            <td><img class="selector" id="qrimg" src="images/cam.png" onclick="setimg()" align="right" style="opacity: 0.2;"></td></tr>
+                            <tr><td colspan="2" align="center">
+
+                        </tbody>
+                    </table>
+                </td>
+            </tr></tbody>
+        </table>
+        </div>
+    </div>
+    <div id="outdiv"><video id="v" autoplay=""></video></div></td></tr>
+
+    <canvas id="qr-canvas"></canvas>
+
 </div>
 
-<div id="workspace">
 
 </div>
+
 
 
 <div id="qrcode"></div>
 
 <div id="mainbody" style="display: inline;">
 
-<table border="0" width="100%">
-    <tbody><tr>
-        <td valign="top" align="center" width="50%">
-            <table class="tsel" border="0">
-                <tbody><tr>
-                    <td><img class="selector" id="webcamimg" src="images/vid.png" onclick="setwebcam()" align="left" style="opacity: 1;"></td>
-                    <td><img class="selector" id="qrimg" src="images/cam.png" onclick="setimg()" align="right" style="opacity: 0.2;"></td></tr>
-                <tr><td colspan="2" align="center">
-                    <div id="outdiv"><video id="v" autoplay=""></video></div></td></tr>
-                </tbody></table>
-        </td>
-    </tr>
-    </tbody></table>
-</div>
-
-
-<canvas id="qr-canvas"></canvas>
 
 <script type="text/javascript" src="js/readQRcode.js"></script>
 
