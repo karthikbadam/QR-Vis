@@ -6,43 +6,53 @@ body {
 
 .btn {
     width: 100%;
+    z-index: 2;
+    background-color: rgba(150, 220, 255, 0.8);
+    font-size: 16px;
 }
 
 .btn-div {
     padding: 0px;
+    z-index: 2;
+
 }
 
 #audioSource {
     background: transparent;
     width:50%;
-    padding: 10px;
+    padding: 5px;
     font-size: 16px;
     line-height: 1;
     border: 0;
     border-radius: 0;
     height: 34px;
     text-align: center;
+    z-index: 2;
+
 }
 
 #videoSource {
     background: transparent;
     width:50%;
-    padding: 10px;
+    padding: 5px;
     font-size: 16px;
     line-height: 1;
     border: 0;
     border-radius: 0;
     height: 34px;
     text-align: center;
+    z-index: 2;
+
 }
 
 .info-source {
     text-align: center;
-
+    z-index: 2;
+    background-color: rgba(225, 225, 225, .8)
 }
 
 #camera {
-    background-color: lightcyan;
+    background-color: transparent;
 }
 
 .tsel {
@@ -51,17 +61,26 @@ body {
 
 #v {
     width: 100%;
+    height: 100%;
 }
 
 .selector {
     padding-left: 30px;
     padding-right: 30px;
+    z-index: 2;
 }
 
 #outdiv {
     position: absolute;
     width: 100%;
     left: 0;
-    top: 0;
-    z-index: -1;
+    top: 30px;
+    z-index: 1;
+}
+
+#qr-canvas {
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    top: 0px;
 }
