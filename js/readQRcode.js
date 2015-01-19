@@ -314,3 +314,21 @@ function setimg() {
 
     stype = 2;
 }
+
+$(document).ready(function() {
+
+    $('#captureButton').onclick(function() {
+
+        //show video if not present
+
+
+    });
+
+    $('#analyzeButton').onclick(function() {
+
+        //show blank screen for visualization
+
+
+    });
+
+});
