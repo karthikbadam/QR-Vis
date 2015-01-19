@@ -320,13 +320,39 @@ $(document).ready(function() {
     $('#captureButton').onclick(function() {
 
         //show video if not present
+        if (!$('#outdiv').html()) {
 
+            $('qr-canvas').hide();
+
+            if (isCanvasSupported() && window.File && window.FileReader && typeof MediaStreamTrack != 'undefined') {
+
+                setwebcam();
+
+                initCanvas(800, 600);
+                qrcode.callback = read;
+                document.getElementById("mainbody").style.display = "inline";
+                MediaStreamTrack.getSources(gotSources);
+
+            } else {
+
+                document.getElementById("mainbody").style.display = "inline";
+                document.getElementById("mainbody").innerHTML = '<p id="mp1">QR code scanner for HTML5 capable browsers</p><br>' +
+                    '<br><p id="mp2">sorry your browser is not supported</p><br><br>' +
+                    '<p id="mp1">try <a href="http://www.mozilla.com/firefox"><img src="firefox.png"/></a> or <a href="http://chrome.google.com"><img src="chrome_logo.gif"/></a> or <a href="http://www.opera.com"><img src="Opera-logo.png"/></a></p>';
+            }
+
+
+        }
 
     });
 
     $('#analyzeButton').onclick(function() {
 
         //show blank screen for visualization
+        if ($('#outdiv').html()) {
+            $('#outdiv').innerHTML = "";
+            $('qr-canvas').hide();
+        }
 
 
     });
