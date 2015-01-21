@@ -17,7 +17,7 @@ function BarChart (options) {
     };
 
     _self.width = (800 - _self.margin.left - _self.margin.right),
-        _self.height = (280 - _self.margin.top - _self.margin.bottom);
+        _self.height = (200 - _self.margin.top - _self.margin.bottom);
 
 
     _self.metaData = {
@@ -60,22 +60,61 @@ function BarChart (options) {
         .scale(_self.y)
         .orient("left").ticks(6);
 
-    //creates the mapping function for path line in SVG
-    _self.line = d3.svg.line()
-        .interpolate("Monotone")
-        .x(function(d) {
-            return _self.x(d["Date"]);
-        })
-        .y(function(d) {
-            return _self.y(d["Volume"]);
-        });
-
     //general definitions to keep everything within boundaries
     _self.svg.append("defs")
-        .append("clipPath").attr("id", "clip-" + _self.symbol)
+        .append("clipPath").attr("id", "bar-clip-" + _self.symbol)
         .append("rect")
         .attr("width", _self.width).attr("height", _self.height);
 
+    _self.chartContainer = _self.svg.selectAll(".bar")
+        .data(_self.data)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("clip-path", "url(#bar-clip-" + _self.symbol + ")")
+        .attr("x", function(d) {
+            return _self.x(d["Date"]);
+        })
+        .attr("width", 2)
+        .attr("y", function(d) {
+            return _self.y(d["Volume"]);
+        })
+        .attr("height", function(d) {
+            return _self.height - _self.y(d["Volume"]);
+        })
+        .attr("fill", "#444")
+        .attr("fill-opacity", 0.3);
 
+    //draws the axis
+    _self.chartContainer.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + _self.height + ")")
+        .call(_self.xAxis);
+
+    _self.chartContainer.append("g")
+        .attr("class", "y axis")
+        .call(_self.yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 4)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end");
+
+    //draws the text -- name of the stock
+    _self.chartContainer.append("text")
+        .attr("transform", "translate(" + 10 + ",0)")
+        .text(_self.symbol)
+        .attr("stroke-opacity", 0.3)
+        .attr("fill-opacity", 0.3)
+        .attr("stroke","#F00")
+        .attr("font-size", "11px");
+
+
+    //make QR code with the chart
+    _self.qrcode = new QRCode(document.getElementById("qrcode"), {
+        width : 150,
+        height : 150
+    });
+
+    _self.qrcode.makeCode(JSON.stringify(_self.metaData));
 
 }
