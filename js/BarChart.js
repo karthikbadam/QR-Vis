@@ -10,19 +10,18 @@ function BarChart (options) {
     _self.symbol = options.symbol;
 
     _self.margin = {
-        top: 60,
+        top: 20,
         right: 40,
-        bottom: 60,
+        bottom: 20,
         left: 40
     };
 
     _self.width = (800 - _self.margin.left - _self.margin.right),
-        _self.height = (200 - _self.margin.top - _self.margin.bottom);
+        _self.height = (150 - _self.margin.top - _self.margin.bottom);
 
 
     _self.metaData = {
         chart: "Bar",
-
     }
 
     _self.div = d3.select("body").append("div").attr("id", "bar-chart_"+_self.symbol);
@@ -58,19 +57,21 @@ function BarChart (options) {
 
     _self.yAxis = d3.svg.axis()
         .scale(_self.y)
-        .orient("left").ticks(6);
+        .orient("left").ticks(6)
+        .tickFormat(function(d) {
+            return d/1000 + "K";
+        });
 
-    //general definitions to keep everything within boundaries
-    _self.svg.append("defs")
-        .append("clipPath").attr("id", "bar-clip-" + _self.symbol)
-        .append("rect")
+    //draws the path line
+    _self.chartContainer = _self.svg.append("g")
+        .attr("class", "barchart")
         .attr("width", _self.width).attr("height", _self.height);
 
-    _self.chartContainer = _self.svg.selectAll(".bar")
+
+    _self.chartContainer.selectAll(".bar")
         .data(_self.data)
         .enter().append("rect")
         .attr("class", "bar")
-        .attr("clip-path", "url(#bar-clip-" + _self.symbol + ")")
         .attr("x", function(d) {
             return _self.x(d["Date"]);
         })
@@ -108,11 +109,12 @@ function BarChart (options) {
         .attr("stroke","#F00")
         .attr("font-size", "11px");
 
+    $("body").append('<div id="qrcodeBar" class="qrcode"></div>')
 
     //make QR code with the chart
-    _self.qrcode = new QRCode(document.getElementById("qrcode"), {
-        width : 150,
-        height : 150
+    _self.qrcode = new QRCode(document.getElementById("qrcodeBar"), {
+        width : 100,
+        height : 100
     });
 
     _self.qrcode.makeCode(JSON.stringify(_self.metaData));

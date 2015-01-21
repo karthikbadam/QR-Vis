@@ -56,16 +56,18 @@ svg {
     border: 1px solid rgba(217, 217, 217, 0.2);
 }
 
-#qrcode {
+.qrcode {
     width:100px;
     height:100px;
     position: absolute;
-    margin-top: 0px;
-    margin-left: 350px;
 }
 
-#qr-canvas {
-    width: 800px;
-    height: 600px;
-    visibility: hidden;
+#qrcodeLine {
+    top: 0px;
+    left: 300px;
+}
+
+#qrcodeBar {
+    top: 600px;
+    left: 300px;
 }
