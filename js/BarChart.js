@@ -113,8 +113,8 @@ function BarChart (options) {
 
     //make QR code with the chart
     _self.qrcode = new QRCode(document.getElementById("qrcodeBar"), {
-        width : 100,
-        height : 100
+        width : 150,
+        height : 150
     });
 
     _self.qrcode.makeCode(JSON.stringify(_self.metaData));

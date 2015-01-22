@@ -22,6 +22,9 @@ function LineChart (options) {
 
     _self.metaData = {
         chart: "Line",
+        x: "",
+        y: "",
+        color: "black"
     }
 
     _self.div = d3.select("body").append("div").attr("id", "chart_"+_self.symbol);
