@@ -81,6 +81,6 @@ body {
 #qr-canvas {
     z-index: 0;
     position: absolute;
-    left: 0;
+    left: -850px;
     top: 0px;
 }
