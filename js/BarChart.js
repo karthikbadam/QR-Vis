@@ -109,7 +109,11 @@ function BarChart (options) {
         .attr("stroke","#F00")
         .attr("font-size", "11px");
 
-    $("body").append('<div id="qrcodeBar" class="qrcode"></div>')
+    var position = $("#bar-chart_"+_self.symbol).position();
+    var qrLeft = position.left + _self.width/2 - 75;
+    var qrTop = position.top - 5;
+
+    $("body").append('<div id="qrcodeBar" class="qrcode" style="left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
 
     //make QR code with the chart
     _self.qrcode = new QRCode(document.getElementById("qrcodeBar"), {

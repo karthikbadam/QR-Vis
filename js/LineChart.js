@@ -118,12 +118,16 @@ function LineChart (options) {
         .attr("stroke","#F00")
         .attr("font-size", "11px");
 
-    $("body").append('<div id="qrcodeLine" class="qrcode"></div>')
+    var position = $("#chart_"+_self.symbol).position();
+    var qrLeft = position.left + _self.width/2 - 75;
+    var qrTop = position.top - 5;
+
+    $("body").append('<div id="qrcodeLine" class="qrcode" style="left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
 
     //make QR code with the chart
     _self.qrcode = new QRCode(document.getElementById("qrcodeLine"), {
-        width : 200,
-        height : 200
+        width : 150,
+        height : 150
     });
 
     _self.qrcode.makeCode(JSON.stringify(_self.metaData));
