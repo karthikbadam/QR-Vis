@@ -2,7 +2,7 @@
  * Created by karthik on 1/24/15.
  */
 
-function CorrelationChart (options) {
+function CorrelationChart(options) {
     var _self = this;
 
     _self.stockData = options.stockData;
@@ -18,15 +18,15 @@ function CorrelationChart (options) {
         node1.id = i;
         _self.nodes.push(node1);
 
-        for (var j = i+1; j < _self.keys.length; j++) {
+        for (var j = i + 1; j < _self.keys.length; j++) {
             var key1 = _self.keys[i];
             var key2 = _self.keys[j];
 
             var s1 = _self.stockData[key1];
             var s2 = _self.stockData[key2];
 
-            var correlation = _self.getCorrelationValue (s1, s2);
-            console.log(key1+", "+key2+": "+correlation);
+            var correlation = _self.getCorrelationValue(s1, s2);
+            console.log(key1 + ", " + key2 + ": " + correlation);
 
             var link1 = {};
             link1.source = i;
@@ -48,8 +48,10 @@ CorrelationChart.prototype.createChart = function () {
         left: 30
     };
 
-    _self.width = (500 - _self.margin.left - _self.margin.right),
-        _self.height = (800 - _self.margin.top - _self.margin.bottom);
+    var radius = _self.radius = 7;
+
+    _self.width = (600 - _self.margin.left - _self.margin.right),
+        _self.height = (600 - _self.margin.top - _self.margin.bottom);
 
     _self.metaData = {
         chart: "Correlation",
@@ -58,7 +60,7 @@ CorrelationChart.prototype.createChart = function () {
         color: "black"
     }
 
-    _self.div = d3.select("body").append("div").attr("id", "correlation-chart_"+_self.symbol);
+    _self.div = d3.select("body").append("div").attr("id", "correlation-chart").attr("class", "chart");
 
     _self.svg = _self.div.append("svg")
         .attr("width", _self.width + _self.margin.left - _self.margin.right)
@@ -68,7 +70,9 @@ CorrelationChart.prototype.createChart = function () {
 
     _self.force = d3.layout.force()
         .charge(-120)
-        .linkDistance(function(d) { return 320 - 160 * d.value })
+        .linkDistance(function (d) {
+            return (-300 * d.value + 320);
+        })
         .size([_self.width, _self.height]);
 
     _self.force.nodes(_self.nodes)
@@ -79,29 +83,77 @@ CorrelationChart.prototype.createChart = function () {
         .data(_self.links)
         .enter().append("line")
         .attr("class", "link")
-        .attr("stroke", "#aaa")
+        .attr("stroke", function (d) {
+            if (d.value > 0) {
+                return "#90EE90";
+            } else {
+                return "#F08080";
+            }
+        })
         .attr("stroke-width", "0.5px");
 
     _self.node = _self.svg.selectAll(".node")
         .data(_self.nodes)
-        .enter().append("circle")
-        .attr("class", "node")
-        .attr("r", 7)
-        .style("fill", function(d) { return color(d.id); })
-        .call(_self.force.drag);
+        .enter()
+        .append("g")
+        .attr("class", "node");
 
-    _self.node.append("title")
-        .text(function(d) { return d.name; });
 
-    _self.force.on("tick", function() {
-        _self.link.attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
+    _self.node.append("circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", radius)
+        .style("fill", function (d) {
+            return "#222";
+        });
+    //.call(_self.force.drag);
 
-        _self.node.attr("cx", function(d) { return d.x; })
-            .attr("cy", function(d) { return d.y; });
+    _self.node.append("text")
+        .attr("dx", 12)
+        .attr("dy", ".35em")
+        .text(function (d) {
+            return d.name
+        });
+
+    _self.force.on("tick", function () {
+        _self.link.attr("x1", function (d) {
+            return d.source.x;
+        })
+            .attr("y1", function (d) {
+                return d.source.y;
+            })
+            .attr("x2", function (d) {
+                return d.target.x;
+            })
+            .attr("y2", function (d) {
+                return d.target.y;
+            });
+
+        _self.node.attr("transform", function (d) {
+            d.x = Math.max(radius, Math.min(_self.width - 30 - radius, d.x));
+            d.y = Math.max(radius, Math.min(_self.height - radius, d.y));
+            return "translate(" + d.x + "," + d.y + ")";
+        });
+
+        //.attr("x", function(d) { return d.x = Math.max(radius, Math.min(_self.width - 30 - radius, d.x)); })
+        //.attr("y", function(d) { return d.y = Math.max(radius, Math.min(_self.height - radius, d.y)); });
     });
+
+    var position = $("#correlation-chart").position();
+    var qrLeft = position.left - 200;
+    var qrTop =  position.top + _self.height - 200;
+
+    $("#correlation-chart").append('<div id="qrcodeCorrelation" class="qrcode" style="left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
+
+    //make QR code with the chart
+    _self.qrcode = new QRCode(document.getElementById("qrcodeCorrelation"), {
+        width : 200,
+        height : 200
+    });
+
+    _self.qrcode.makeCode(JSON.stringify(_self.metaData));
+
+
 }
 
 CorrelationChart.prototype.getKeys = function () {
@@ -113,10 +165,10 @@ CorrelationChart.prototype.getKeys = function () {
 CorrelationChart.prototype.getCorrelationValue = function (x, y) {
     var shortestArrayLength = 0;
 
-    if(x.length == y.length) {
+    if (x.length == y.length) {
         shortestArrayLength = x.length;
 
-    } else if(x.length > y.length) {
+    } else if (x.length > y.length) {
         shortestArrayLength = y.length;
 
     } else {
@@ -128,7 +180,7 @@ CorrelationChart.prototype.getCorrelationValue = function (x, y) {
     var x2 = [];
     var y2 = [];
 
-    for(var i = 0; i < shortestArrayLength; i++) {
+    for (var i = 0; i < shortestArrayLength; i++) {
         xy.push(x[i] * y[i]);
         x2.push(x[i] * x[i]);
         y2.push(y[i] * y[i]);
@@ -141,7 +193,7 @@ CorrelationChart.prototype.getCorrelationValue = function (x, y) {
     var sum_x2 = 0;
     var sum_y2 = 0;
 
-    for(var i = 0; i < shortestArrayLength; i++) {
+    for (var i = 0; i < shortestArrayLength; i++) {
         sum_x += x[i];
         sum_y += y[i];
         sum_xy += xy[i];
