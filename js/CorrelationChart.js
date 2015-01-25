@@ -8,7 +8,16 @@ function CorrelationChart (options) {
     _self.stockData = options.stockData;
     _self.keys = Object.keys(stockData);
 
+    _self.nodes = [];
+    _self.links = [];
+
     for (var i = 0; i < _self.keys.length; i++) {
+
+        var node1 = {};
+        node1.name = _self.keys[i];
+        node1.id = i;
+        _self.nodes.push(node1);
+
         for (var j = i+1; j < _self.keys.length; j++) {
             var key1 = _self.keys[i];
             var key2 = _self.keys[j];
@@ -18,12 +27,18 @@ function CorrelationChart (options) {
 
             var correlation = _self.getCorrelationValue (s1, s2);
             console.log(key1+", "+key2+": "+correlation);
+
+            var link1 = {};
+            link1.source = i;
+            link1.target = j;
+            link1.value = correlation;
+
+            _self.links.push(link1);
         }
     }
-
 }
 
-CorrelationChart.prototype.getChart = function () {
+CorrelationChart.prototype.createChart = function () {
     var _self = this;
 
     _self.margin = {
@@ -51,7 +66,42 @@ CorrelationChart.prototype.getChart = function () {
         .append("g")
         .attr("transform", "translate(" + (_self.margin.left) + "," + _self.margin.top + ")");
 
-    
+    _self.force = d3.layout.force()
+        .charge(-120)
+        .linkDistance(function(d) { return 320 - 160 * d.value })
+        .size([_self.width, _self.height]);
+
+    _self.force.nodes(_self.nodes)
+        .links(_self.links)
+        .start();
+
+    _self.link = _self.svg.selectAll(".link")
+        .data(_self.links)
+        .enter().append("line")
+        .attr("class", "link")
+        .attr("stroke", "#aaa")
+        .attr("stroke-width", "0.5px");
+
+    _self.node = _self.svg.selectAll(".node")
+        .data(_self.nodes)
+        .enter().append("circle")
+        .attr("class", "node")
+        .attr("r", 7)
+        .style("fill", function(d) { return color(d.id); })
+        .call(_self.force.drag);
+
+    _self.node.append("title")
+        .text(function(d) { return d.name; });
+
+    _self.force.on("tick", function() {
+        _self.link.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+
+        _self.node.attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; });
+    });
 }
 
 CorrelationChart.prototype.getKeys = function () {
