@@ -21,19 +21,24 @@ $(document).ready(function() {
         height : 200
     });
 
-    qrcode.makeCode("Blah Blah");
+    qrcode.makeCode("Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik");
 
     // add a image element
     //gif.addFrame(imageElement);
 
     // or a canvas element
-    gif.addFrame(document.getElementById("QRcode"));
+    gif.addFrame(document.getElementById("QRcanvas"), {"copy": true, "delay": 1000});
+
+    qrcode.makeCode("Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah");
+
+    gif.addFrame(document.getElementById("QRcanvas"));
 
     // or copy the pixels from a canvas context
     //gif.addFrame(ctx, {copy: true});
 
     gif.on('finished', function(blob) {
-        window.open(URL.createObjectURL(blob));
+        $('body').append('<img id="QRCodesAnim" style="position: absolute; left: 500px; top: 500px" src="'+URL.createObjectURL(blob)+'"</img>')
+        //window.open(URL.createObjectURL(blob));
     });
 
     gif.render();
