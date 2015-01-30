@@ -27,7 +27,7 @@ $(document).ready(function() {
     //gif.addFrame(imageElement);
 
     // or a canvas element
-    gif.addFrame(document.getElementsByName("img"), {delay: 200});
+    gif.addFrame(document.getElementById("QRcode"));
 
     // or copy the pixels from a canvas context
     //gif.addFrame(ctx, {copy: true});
