@@ -272,6 +272,7 @@ var QRCode;
 		};
 		
 		return Drawing;
+
 	})() : (function () { // Drawing in Canvas
 		function _onMakeImage() {
 			this._elImage.src = this._elCanvas.toDataURL("image/png");
@@ -357,13 +358,15 @@ var QRCode;
 			this._elCanvas = document.createElement("canvas");
 			this._elCanvas.width = htOption.width;
 			this._elCanvas.height = htOption.height;
-			el.appendChild(this._elCanvas);
+            this._elCanvas.id = htOption.idName;
+
+            el.appendChild(this._elCanvas);
 			this._el = el;
 			this._oContext = this._elCanvas.getContext("2d");
 			this._bIsPainted = false;
 			this._elImage = document.createElement("img");
 			this._elImage.alt = "Scan me!";
-			this._elImage.style.display = "none";
+            this._elImage.style.display = "none";
 			this._el.appendChild(this._elImage);
 			this._bSupportDataURI = null;
 		};
@@ -539,7 +542,8 @@ var QRCode;
 			typeNumber : 4,
 			colorDark : "#000000",
 			colorLight : "#ffffff",
-			correctLevel : QRErrorCorrectLevel.H
+			correctLevel : QRErrorCorrectLevel.H,
+            idName: "QRCanvas"
 		};
 		
 		if (typeof vOption === 'string') {
@@ -586,7 +590,7 @@ var QRCode;
 		this._oDrawing.draw(this._oQRCode);			
 		this.makeImage();
 	};
-	
+
 	/**
 	 * Make the Image from Canvas element
 	 * - It occurs automatically

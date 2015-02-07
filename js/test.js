@@ -18,20 +18,21 @@ $(document).ready(function() {
     //make QR code with the chart
     var qrcode = new QRCode(document.getElementById("qrAnim"), {
         width : 200,
-        height : 200
+        height : 200,
+        idName : "karthikIsAwesome"
     });
 
-    qrcode.makeCode("Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik Karthik");
+    qrcode.makeCode("karthik");
 
     // add a image element
     //gif.addFrame(imageElement);
 
     // or a canvas element
-    gif.addFrame(document.getElementById("QRcanvas"), {"copy": true, "delay": 1000});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 1000});
 
-    qrcode.makeCode("Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah");
+    qrcode.makeCode(".........|.........|.........|.........|.........|.........|.........|.........|.........|......100|.........|.........|.........|.........|.........|.........|.........|.........|.........|......200|.........|.........|.........|.........|.........|.........|.........|.........|.........|......300|.........|.........|.........|.........|.........|.........|.........|.........|.........|......400|.........|.........|.........|.........|.........|.........|.........|.........|.........|......500|.........|.........|.........|.........|.........|.........|.........|.........|.........|......600|.........|.........|.........|.........|.........|.........|.........|.........|.........|......700|.........|.........|.........|.........|.........|.........|.........|.........|.........|......800|.........|.........|.........|.........|.........|.........|.........|.........|.........|......900|");
 
-    gif.addFrame(document.getElementById("QRcanvas"));
+    gif.addFrame(document.getElementById("karthikIsAwesome"));
 
     // or copy the pixels from a canvas context
     //gif.addFrame(ctx, {copy: true});
