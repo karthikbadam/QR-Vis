@@ -40,6 +40,8 @@ qrcode.decode = function(src){
         var clipperWidth = $('#highlightRect').width();
         var clipperHeight = $('#highlightRect').height();
         console.log('trying to read QR');
+        $('#highlightRect').remove();
+
         qrcode.imagedata = context.getImageData(offset.left, offset.top, clipperWidth, clipperHeight);
         qrcode.result = qrcode.process(context);
         if(qrcode.callback!=null)

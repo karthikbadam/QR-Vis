@@ -120,7 +120,6 @@ function initCanvas(w, h) {
     $("body").append('<button id="readQR">Capture</button>');
     $('#readQR').click(function (){
         try {
-            $('#highlightRect').remove();
             var decoded = qrcode.decode();
         }
 
@@ -135,19 +134,21 @@ function CroppingTool () {
 
     var _self = this;
     var offset = $('#qr-canvas').offset();
-    var offsetx = offset.x;
-    var offsety = offset.y;
+    var offsetx = offset.left;
+    var offsety = offset.top;
 
     this.start = function (event) {
 
         var x = 0;
         var y = 0;
 
+        event.preventDefault();
+
         gCtx.fillStyle = "rgba(255, 170, 170, 0.2)";
 
         if (event.type == "touchstart") {
-            x = event.changedTouches[0].x;
-            y = event.changedTouches[0].y;
+            x = event.changedTouches[0].clientX;
+            y = event.changedTouches[0].clientY;
         } else {
             x = event.clientX;
             y = event.clientY;
@@ -171,13 +172,15 @@ function CroppingTool () {
 
     this.move = function (event) {
 
+        event.preventDefault();
+
         if (_self.started) {
             var x = 0;
             var y = 0;
 
             if (event.type == "touchmove") {
-                x = event.changedTouches[0].x;
-                y = event.changedTouches[0].y;
+                x = event.changedTouches[0].clientX;
+                y = event.changedTouches[0].clientY;
             } else {
                 x = event.clientX;
                 y = event.clientY;
@@ -195,9 +198,11 @@ function CroppingTool () {
         var x = 0;
         var y = 0;
 
+        event.preventDefault();
+
         if (event.type == "touchend") {
-            x = event.changedTouches[0].x - offsetx;
-            y = event.changedTouches[0].y - offsety;
+            x = event.changedTouches[0].clientX - offsetx;
+            y = event.changedTouches[0].clientY - offsety;
         } else {
             x = event.clientX;
             y = event.clientY;
