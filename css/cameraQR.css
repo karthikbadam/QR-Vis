@@ -62,6 +62,9 @@ body {
 #v {
     width: 100%;
     height: 100%;
+    position: absolute;
+    left:-100%;
+    top: 0px;
 }
 
 .selector {
@@ -81,6 +84,17 @@ body {
 #qr-canvas {
     z-index: 0;
     position: absolute;
-    left: -850px;
+    left: 0px;
     top: 0px;
+}
+
+#readQR {
+    position: absolute;
+    width: 200px;
+    text-align: center;
+    left: 40%;
+    top: 90%;
+    background-color: #eab700;
+    z-index: 2;
+    cursor: pointer;
 }

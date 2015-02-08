@@ -105,6 +105,121 @@ function initCanvas(w, h) {
     gCtx = gCanvas.getContext("2d");
     gCtx.clearRect(0, 0, w, h);
 
+    var cropper = new CroppingTool();
+
+    gCanvas.addEventListener('mousedown', cropper.start, false);
+    gCanvas.addEventListener('touchstart', cropper.start, false);
+
+    gCanvas.addEventListener('mousemove', cropper.move, false);
+    gCanvas.addEventListener('touchmove', cropper.move, false);
+
+    gCanvas.addEventListener('mouseup', cropper.end, false);
+    gCanvas.addEventListener('touchend', cropper.end, false);
+
+
+    $("body").append('<button id="readQR">Capture</button>');
+    $('#readQR').click(function (){
+        try {
+            $('#highlightRect').remove();
+            var decoded = qrcode.decode();
+        }
+
+        catch (e) {
+            console.log(e);
+        };
+    });
+}
+
+
+function CroppingTool () {
+
+    var _self = this;
+    var offset = $('#qr-canvas').offset();
+    var offsetx = offset.x;
+    var offsety = offset.y;
+
+    this.start = function (event) {
+
+        var x = 0;
+        var y = 0;
+
+        gCtx.fillStyle = "rgba(255, 170, 170, 0.2)";
+
+        if (event.type == "touchstart") {
+            x = event.changedTouches[0].x;
+            y = event.changedTouches[0].y;
+        } else {
+            x = event.clientX;
+            y = event.clientY;
+        }
+
+        _self.startx = x;
+        _self.starty = y;
+
+        $('#highlightRect').remove();
+
+        if (!_self.started) {
+            $('body').append('<div id="highlightRect" style="background-color: rgba(255, 170, 170, 0.2); border: solid 1px #222; position: absolute; z-index: 100;"></div>');
+            $('#highlightRect').width(5);
+            $('#highlightRect').height(5);
+            $('#highlightRect').offset({left: x, top: y});
+        }
+
+        _self.started = true;
+
+    };
+
+    this.move = function (event) {
+
+        if (_self.started) {
+            var x = 0;
+            var y = 0;
+
+            if (event.type == "touchmove") {
+                x = event.changedTouches[0].x;
+                y = event.changedTouches[0].y;
+            } else {
+                x = event.clientX;
+                y = event.clientY;
+            }
+
+
+            //$('#highlightRect').width(x - _self.startx);
+            //$('#highlightRect').height(y - _self.starty);
+        }
+
+    };
+
+    this.end = function (event) {
+
+        var x = 0;
+        var y = 0;
+
+        if (event.type == "touchend") {
+            x = event.changedTouches[0].x - offsetx;
+            y = event.changedTouches[0].y - offsety;
+        } else {
+            x = event.clientX;
+            y = event.clientY;
+        }
+
+        if (_self.started) {
+            var left = _self.startx;
+            var top = _self.starty;
+
+            if (x < _self.startx)
+                left = x;
+
+            if (y < _self.starty)
+                top = y;
+
+            $('#highlightRect').offset({left: left, top: top});
+            $('#highlightRect').width(Math.abs(x - _self.startx));
+            $('#highlightRect').height(Math.abs(y - _self.starty));
+
+        }
+        _self.started = false;
+    };
 }
 
 
@@ -114,17 +229,19 @@ function captureToCanvas() {
 
     if (gUM) {
         try {
-            gCtx.drawImage(v, 0, 0);
-            try {
-                var decoded = qrcode.decode();
+            gCtx.drawImage(v, 0, 0, gCanvas.width, gCanvas.height);
+            setTimeout(captureToCanvas, 500);
 
-            }
-
-            catch (e) {
-                console.log(e);
-                setTimeout(captureToCanvas, 500);
-            }
-            ;
+//            try {
+//                var decoded = qrcode.decode();
+//
+//            }
+//
+//            catch (e) {
+//                console.log(e);
+//                setTimeout(captureToCanvas, 500);
+//            }
+//
         }
         catch (e) {
             console.log(e);
@@ -279,32 +396,34 @@ function replaceWebcam() {
 audioSelect.onchange = replaceWebcam;
 videoSelect.onchange = replaceWebcam;
 
-function setimg() {
-
-    document.getElementById("result").innerHTML = "";
-
-    if (stype == 2)
-        return;
-
-    document.getElementById("outdiv").innerHTML = imghtml;
-
-    document.getElementById("qrimg").style.opacity = 1.0;
-    document.getElementById("webcamimg").style.opacity = 0.2;
-
-    var qrfile = document.getElementById("qrfile");
-    qrfile.addEventListener("dragenter", dragenter, false);
-    qrfile.addEventListener("dragover", dragover, false);
-    qrfile.addEventListener("drop", drop, false);
-
-    stype = 2;
-}
+//function setimg() {
+//
+//    document.getElementById("result").innerHTML = "";
+//
+//    if (stype == 2)
+//        return;
+//
+//    document.getElementById("outdiv").innerHTML = imghtml;
+//
+//    document.getElementById("qrimg").style.opacity = 1.0;
+//    document.getElementById("webcamimg").style.opacity = 0.2;
+//
+//    var qrfile = document.getElementById("qrfile");
+//    qrfile.addEventListener("dragenter", dragenter, false);
+//    qrfile.addEventListener("dragover", dragover, false);
+//    qrfile.addEventListener("drop", drop, false);
+//
+//    stype = 2;
+//}
 
 function initiate () {
     if (isCanvasSupported() && window.File && window.FileReader && typeof MediaStreamTrack != 'undefined') {
 
         setwebcam();
+        var width = $(document).width();
+        var height = $(document).height();
 
-        initCanvas(800, 600);
+        initCanvas(width, height);
         qrcode.callback = read;
         document.getElementById("mainbody").style.display = "inline";
         MediaStreamTrack.getSources(gotSources);
@@ -321,7 +440,7 @@ function initiate () {
 
 $(document).ready(function() {
 
-    $('#captureButton').onclick(function() {
+    $('#captureButton').click(function() {
 
         //show video if not present
         if (!$('#outdiv').html()) {
@@ -332,7 +451,7 @@ $(document).ready(function() {
 
     });
 
-    $('#analyzeButton').onclick(function() {
+    $('#analyzeButton').click(function() {
 
         //show blank screen for visualization
         if ($('#outdiv').html()) {

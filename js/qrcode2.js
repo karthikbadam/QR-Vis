@@ -35,7 +35,12 @@ qrcode.decode = function(src){
         var context = canvas_qr.getContext('2d');
         qrcode.width = canvas_qr.width;
         qrcode.height = canvas_qr.height;
-        qrcode.imagedata = context.getImageData(0, 0, qrcode.width, qrcode.height);
+
+        var offset = $('#highlightRect').offset();
+        var clipperWidth = $('#highlightRect').width();
+        var clipperHeight = $('#highlightRect').height();
+        console.log('trying to read QR');
+        qrcode.imagedata = context.getImageData(offset.left, offset.top, clipperWidth, clipperHeight);
         qrcode.result = qrcode.process(context);
         if(qrcode.callback!=null)
             qrcode.callback(qrcode.result);
