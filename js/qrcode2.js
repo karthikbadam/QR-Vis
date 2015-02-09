@@ -33,19 +33,39 @@ qrcode.decode = function(src){
     {
         var canvas_qr = document.getElementById("qr-canvas");
         var context = canvas_qr.getContext('2d');
-        qrcode.width = canvas_qr.width;
-        qrcode.height = canvas_qr.height;
 
         var offset = $('#highlightRect').offset();
         var clipperWidth = $('#highlightRect').width();
         var clipperHeight = $('#highlightRect').height();
         console.log('trying to read QR');
-        $('#highlightRect').remove();
 
-        qrcode.imagedata = context.getImageData(offset.left, offset.top, clipperWidth, clipperHeight);
-        qrcode.result = qrcode.process(context);
+        var image = context.getImageData(offset.left, offset.top, clipperWidth, clipperHeight);
+
+        var canvas_qr2 = document.createElement('canvas');
+        var context2 = canvas_qr2.getContext('2d');
+        var nwidth = clipperWidth;
+        var nheight = clipperHeight;
+        canvas_qr2.width = nwidth;
+        canvas_qr2.height = nheight;
+
+        context2.putImageData(image, 0, 0);
+
+        qrcode.width = canvas_qr2.width;
+        qrcode.height = canvas_qr2.height;
+
+        qrcode.imagedata = context2.getImageData(0, 0, canvas_qr2.width, canvas_qr2.height);
+
+        //$('#highlightRect').remove();
+
+        //qrcode.imagedata = context.getImageData(offset.left, offset.top, qrcode.width + 40, qrcode.height + 40);
+        //qrcode.imagedata = context.getImageData(0, 0, qrcode.width, qrcode.height);
+
+        qrcode.result = qrcode.process(context2);
         if(qrcode.callback!=null)
             qrcode.callback(qrcode.result);
+
+        canvas_qr2.remove();
+
         return qrcode.result;
     }
     else

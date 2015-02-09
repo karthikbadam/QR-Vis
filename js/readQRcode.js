@@ -10,6 +10,7 @@ var gUM = false;
 var webkit = false;
 var moz = false;
 var v = null;
+var captureCanvas = false;
 
 var audioSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
@@ -107,6 +108,32 @@ function initCanvas(w, h) {
 
     var cropper = new CroppingTool();
 
+//    gCanvas.addEventListener('click', function () {
+//
+//        try {
+//            //captureCanvas = true;
+//            var decoded = qrcode.decode();
+//        }
+//
+//        catch (e) {
+//            console.log(e);
+//        };
+//
+//    }, false);
+//
+//    gCanvas.addEventListener('touchstart', function () {
+//
+//        try {
+//            //captureCanvas = true;
+//            var decoded = qrcode.decode();
+//        }
+//
+//        catch (e) {
+//            console.log(e);
+//        };
+//
+//    }, false);
+
     gCanvas.addEventListener('mousedown', cropper.start, false);
     gCanvas.addEventListener('touchstart', cropper.start, false);
 
@@ -120,6 +147,7 @@ function initCanvas(w, h) {
     $("body").append('<button id="readQR">Capture</button>');
     $('#readQR').click(function (){
         try {
+            //captureCanvas = true;
             var decoded = qrcode.decode();
         }
 
@@ -147,8 +175,8 @@ function CroppingTool () {
         gCtx.fillStyle = "rgba(255, 170, 170, 0.2)";
 
         if (event.type == "touchstart") {
-            x = event.changedTouches[0].clientX;
-            y = event.changedTouches[0].clientY;
+            x = event.changedTouches[0].clientX - offsetx;
+            y = event.changedTouches[0].clientY - offsety;
         } else {
             x = event.clientX;
             y = event.clientY;
@@ -235,7 +263,8 @@ function captureToCanvas() {
     if (gUM) {
         try {
             gCtx.drawImage(v, 0, 0, gCanvas.width, gCanvas.height);
-            setTimeout(captureToCanvas, 500);
+            if (!captureCanvas)
+               setTimeout(captureToCanvas, 500);
 
 //            try {
 //                var decoded = qrcode.decode();
@@ -250,9 +279,9 @@ function captureToCanvas() {
         }
         catch (e) {
             console.log(e);
-            setTimeout(captureToCanvas, 500);
-        }
-        ;
+            if (!captureCanvas)
+                setTimeout(captureToCanvas, 500);
+        };
     }
 }
 
@@ -268,7 +297,7 @@ function read(a) {
     html += "<b>" + htmlEntities(a) + "</b><br><br>";
     document.getElementById("result").innerHTML = html;
     */
-
+    captureCanvas = false;
     alert(a);
 }
 
