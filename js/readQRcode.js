@@ -15,6 +15,8 @@ var captureCanvas = false;
 var audioSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
 
+var msg = null;
+
 var imghtml = '<div id="qrfile"><canvas id="out-canvas" width="320" height="240"></canvas>' +
     '<div id="imghelp">drag and drop a QRCode here' +
     '<br>or select a file' +
@@ -289,6 +291,10 @@ function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+var allLoaded = false;
+var counter = 0;
+var loader;
+
 function read(a) {
     /*
     var html = "<br>";
@@ -298,7 +304,49 @@ function read(a) {
     document.getElementById("result").innerHTML = html;
     */
     captureCanvas = false;
-    alert(a);
+    var message =  JSON.parse(a);
+
+    var total = message.t;
+
+    if (msg == null) {
+
+        loader = $("#progressLoader").percentageLoader();
+
+        msg = [];
+        for (var i = 0; i < total; i++) {
+            msg.push({});
+            msg[i].s = "";
+            msg[i].filled = false;
+        }
+
+    }
+
+    if (!msg[message.l - 1].filled) {
+        msg[message.l - 1].s = message.s;
+        msg[message.l - 1].filled = true;
+    }
+
+    var check = true;
+    counter = 0;
+    for (var i = 0; i < total; i++) {
+        if (!msg[i].filled)
+            check = false;
+        else
+            counter++;
+    }
+
+    loader.setProgress(counter/total);
+
+    if (check) {
+        allLoaded = true;
+        var messagePassed = "";
+        for (var i = 0; i < total; i++) {
+            messagePassed = messagePassed + msg[i].s;
+        }
+        alert(messagePassed);
+        allLoaded = false;
+    }
+    //console.log("Frame: "+message.l+" ;Total:"+message.t);
 }
 
 function isCanvasSupported() {

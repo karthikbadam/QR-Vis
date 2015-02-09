@@ -37,7 +37,7 @@ qrcode.decode = function(src){
         var offset = $('#highlightRect').offset();
         var clipperWidth = $('#highlightRect').width();
         var clipperHeight = $('#highlightRect').height();
-        console.log('trying to read QR');
+        //console.log('trying to read QR');
 
         var image = context.getImageData(offset.left, offset.top, clipperWidth, clipperHeight);
 
@@ -204,7 +204,7 @@ qrcode.process = function(ctx){
     
     var end = new Date().getTime();
     var time = end - start;
-    console.log(time);
+    //console.log(time);
     
     return qrcode.decode_utf8(str);
     //alert("Time:" + time + " Code: "+str);
