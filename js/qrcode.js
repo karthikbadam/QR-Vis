@@ -358,7 +358,7 @@ var QRCode;
 			this._elCanvas = document.createElement("canvas");
 			this._elCanvas.width = htOption.width;
 			this._elCanvas.height = htOption.height;
-            this._elCanvas.id = htOption.idName;
+            this._elCanvas.id = htOption.id;
 
             el.appendChild(this._elCanvas);
 			this._el = el;
@@ -543,7 +543,7 @@ var QRCode;
 			colorDark : "#000000",
 			colorLight : "#ffffff",
 			correctLevel : QRErrorCorrectLevel.H,
-            idName: "QRCanvas"
+            id: "QRCanvas"
 		};
 		
 		if (typeof vOption === 'string') {

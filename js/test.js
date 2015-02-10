@@ -56,7 +56,7 @@ $(document).ready(function() {
     var qrcode = new QRCode(document.getElementById("qrAnim"), {
         width : 600,
         height : 600,
-        idName : "karthikIsAwesome"
+        id : "karthikIsAwesome"
     });
 
     qrcode.makeCode(JSON.stringify(message[0]));
