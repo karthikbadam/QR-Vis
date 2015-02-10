@@ -148,17 +148,25 @@ function initCanvas(w, h) {
 
     $("body").append('<button id="readQR">Capture</button>');
     $('#readQR').click(function (){
-        try {
-            //captureCanvas = true;
-            var decoded = qrcode.decode();
-        }
+        decodeQR();
 
-        catch (e) {
-            console.log(e);
-        };
     });
 }
 
+function decodeQR() {
+    try {
+        var decoded = qrcode.decode();
+    }
+
+    catch (e) {
+        console.log(e);
+    };
+
+    if (!allLoaded) {
+
+        setTimeout(decodeQR, 50);
+    }
+}
 
 function CroppingTool () {
 
@@ -266,7 +274,7 @@ function captureToCanvas() {
         try {
             gCtx.drawImage(v, 0, 0, gCanvas.width, gCanvas.height);
             if (!captureCanvas)
-               setTimeout(captureToCanvas, 500);
+               setTimeout(captureToCanvas, 40);
 
 //            try {
 //                var decoded = qrcode.decode();
@@ -282,7 +290,7 @@ function captureToCanvas() {
         catch (e) {
             console.log(e);
             if (!captureCanvas)
-                setTimeout(captureToCanvas, 500);
+                setTimeout(captureToCanvas, 40);
         };
     }
 }
