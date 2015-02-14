@@ -61,8 +61,8 @@ qrcode.decode = function(src){
         //qrcode.imagedata = context.getImageData(0, 0, qrcode.width, qrcode.height);
 
         qrcode.result = qrcode.process(context2);
-        if(qrcode.callback!=null)
-            qrcode.callback(qrcode.result);
+        //if(qrcode.callback!=null)
+          //  qrcode.callback(qrcode.result);
 
         canvas_qr2.remove();
 
@@ -73,6 +73,7 @@ qrcode.decode = function(src){
         var image = new Image();
         image.onload=function(){
             //var canvas_qr = document.getElementById("qr-canvas");
+
             var canvas_qr = document.createElement('canvas');
             var context = canvas_qr.getContext('2d');
             var nheight = image.height;
@@ -108,10 +109,14 @@ qrcode.decode = function(src){
                 console.log(e);
                 qrcode.result = "error decoding QR Code";
             }
-            if(qrcode.callback!=null)
-                qrcode.callback(qrcode.result);
+            //if(qrcode.callback!=null)
+              //  qrcode.callback(qrcode.result);
+
+            console.log(qrcode.result);
         }
         image.src = src;
+
+
     }
 }
 

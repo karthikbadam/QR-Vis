@@ -13,10 +13,54 @@ $(document).ready(function() {
     var qrLeft = -1050;
     var qrTop =  10;
 
+
+    var barGraph = {
+        "width": 400,
+        "height": 200,
+        "padding": {"top": 10, "left": 30, "bottom": 20, "right": 10},
+        "data": [
+            {
+                "name": "table",
+                "values": [
+                    {"x":"A", "y":28}, {"x":"B", "y":55}, {"x":"C", "y":43},
+                    {"x":"D", "y":91}, {"x":"E", "y":81}, {"x":"F", "y":53},
+                    {"x":"G", "y":19}, {"x":"H", "y":87}, {"x":"I", "y":52}
+                ]
+            }
+        ],
+        "scales": [
+            {"name":"x", "type":"ordinal", "range":"width", "domain":{"data":"table", "field":"data.x"}},
+            {"name":"y", "range":"height", "nice":true, "domain":{"data":"table", "field":"data.y"}}
+        ],
+        "axes": [
+            {"type":"x", "scale":"x"},
+            {"type":"y", "scale":"y"}
+        ],
+        "marks": [
+            {
+                "type": "rect",
+                "from": {"data":"table"},
+                "properties": {
+                    "enter": {
+                        "x": {"scale":"x", "field":"data.x"},
+                        "width": {"scale":"x", "band":true, "offset":-1},
+                        "y": {"scale":"y", "field":"data.y"},
+                        "y2": {"scale":"y", "value":0}
+                    },
+                    "update": { "fill": {"value":"steelblue"} },
+                    "hover": { "fill": {"value":"red"} }
+                }
+            }
+        ]
+    };
+
+
+
+
     var message = [{
             l: 1,
             t: 6,
-            s: "great battle foretold to ultimately result in the death of a number of major figures (including the gods Odin, Thor..), the occurrence of various natural disasters, and the subsequent submersion of the world in water."
+            s: "great battle foretold to ultimately result in the death of a number of major figures, various natural disasters, and the submersion of the world in water."
         },
 
         {
@@ -62,27 +106,27 @@ $(document).ready(function() {
     qrcode.makeCode(JSON.stringify(message[0]));
 
     // or a canvas element
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 100});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
 
     qrcode.makeCode(JSON.stringify(message[1]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 100});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
 
     qrcode.makeCode(JSON.stringify(message[2]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 100});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
 
     qrcode.makeCode(JSON.stringify(message[3]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 100});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
 
     qrcode.makeCode(JSON.stringify(message[4]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 100});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
 
     qrcode.makeCode(JSON.stringify(message[5]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 100});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
 
 
     var characterCount = 0;

@@ -16,8 +16,8 @@ function LineChart (options) {
         left: 40
     };
 
-    _self.width = (800 - _self.margin.left - _self.margin.right),
-        _self.height = (600 - _self.margin.top - _self.margin.bottom);
+    _self.width = (600 - _self.margin.left - _self.margin.right),
+        _self.height = (500 - _self.margin.top - _self.margin.bottom);
 
 
     _self.metaData = {
@@ -27,7 +27,7 @@ function LineChart (options) {
         color: "black"
     }
 
-    _self.div = d3.select("body").append("div").attr("id", "chart_"+_self.symbol);
+    _self.div = d3.select("body").append("div").attr("id", "chart_"+_self.symbol).attr("class", "chart");
 
     _self.svg = _self.div.append("svg")
         .attr("width", _self.width + _self.margin.left - _self.margin.right)
@@ -120,14 +120,14 @@ function LineChart (options) {
 
     var position = $("#chart_"+_self.symbol).position();
     var qrLeft = position.left + _self.width/2 - 75;
-    var qrTop = position.top - 5;
+    var qrTop =  position.top + 10;
 
-    $("body").append('<div id="qrcodeLine" class="qrcode" style="left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
+    $("#chart_"+_self.symbol).append('<div id="qrcodeLine" class="qrcode" style="left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
 
     //make QR code with the chart
     _self.qrcode = new QRCode(document.getElementById("qrcodeLine"), {
-        width : 150,
-        height : 150
+        width : 200,
+        height : 200
     });
 
     _self.qrcode.makeCode(JSON.stringify(_self.metaData));

@@ -153,9 +153,44 @@ function initCanvas(w, h) {
     });
 }
 
+
+var counter = 0;
+
 function decodeQR() {
+
+    console.log(counter);
+
+    counter++;
+
     try {
-        var decoded = qrcode.decode();
+
+        // single thread programming for wimps
+        //var decoded = qrcode.decode();
+
+        //using web workers!
+        var worker = new Worker("js/worker.js");
+
+        worker.onmessage = function(event) {
+            console.log("qr code is:" + event.data);
+            if (event.data != "")
+                read(event.data);
+        }
+
+        // get image data
+        var canvas_qr = document.getElementById("qr-canvas");
+        var context = canvas_qr.getContext('2d');
+
+        var offset = $('#highlightRect').offset();
+        var clipperWidth = $('#highlightRect').width();
+        var clipperHeight = $('#highlightRect').height();
+
+        var data = {};
+
+        var imagedata = context.getImageData(offset.left, offset.top, clipperWidth, clipperHeight);
+        data.width = clipperWidth;
+        data.height = clipperHeight;
+
+        worker.postMessage(imagedata, [imagedata.data.buffer]);
     }
 
     catch (e) {
@@ -164,7 +199,7 @@ function decodeQR() {
 
     if (!allLoaded) {
 
-        setTimeout(decodeQR, 50);
+       setTimeout(decodeQR, 150);
     }
 }
 
@@ -274,18 +309,9 @@ function captureToCanvas() {
         try {
             gCtx.drawImage(v, 0, 0, gCanvas.width, gCanvas.height);
             if (!captureCanvas)
-               setTimeout(captureToCanvas, 40);
 
-//            try {
-//                var decoded = qrcode.decode();
-//
-//            }
-//
-//            catch (e) {
-//                console.log(e);
-//                setTimeout(captureToCanvas, 500);
-//            }
-//
+                setTimeout(captureToCanvas, 40);
+
         }
         catch (e) {
             console.log(e);

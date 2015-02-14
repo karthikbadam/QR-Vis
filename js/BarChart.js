@@ -16,8 +16,8 @@ function BarChart (options) {
         left: 40
     };
 
-    _self.width = (800 - _self.margin.left - _self.margin.right),
-        _self.height = (150 - _self.margin.top - _self.margin.bottom);
+    _self.width = (600 - _self.margin.left - _self.margin.right),
+        _self.height = (200 - _self.margin.top - _self.margin.bottom);
 
 
     _self.metaData = {
@@ -27,7 +27,7 @@ function BarChart (options) {
         color: "black"
     }
 
-    _self.div = d3.select("body").append("div").attr("id", "bar-chart_"+_self.symbol);
+    _self.div = d3.select("body").append("div").attr("id", "bar-chart_"+_self.symbol).attr("class", "chart");
 
     _self.svg = _self.div.append("svg")
         .attr("width", _self.width + _self.margin.left - _self.margin.right)
@@ -114,11 +114,12 @@ function BarChart (options) {
 
     var position = $("#bar-chart_"+_self.symbol).position();
     var qrLeft = position.left + _self.width/2 - 75;
-    var qrTop = position.top - 5;
-    var qrWidth = 200;
-    var qrHeight = 200;
+    var qrTop =  position.top + 10;
 
-    $("body").append('<div id="qrcodeBar" class="qrcode" style="left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
+    var qrWidth = 150;
+    var qrHeight = 150;
+
+    $("#bar-chart_"+_self.symbol).append('<div id="qrcodeBar" class="qrcode" style="left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
 
     //make QR code with the chart
     _self.qrcode = new QRCode(document.getElementById("qrcodeBar"), {

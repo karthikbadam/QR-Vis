@@ -57,17 +57,24 @@ svg {
 }
 
 .qrcode {
-    width:100px;
-    height:100px;
     position: absolute;
 }
 
-#qrcodeLine {
-    top: 0px;
-    left: 300px;
+#correlation-chart {
+    float:right;
+
 }
 
-#qrcodeBar {
-    top: 550px;
-    left: 350px;
+.chart {
+    width: auto;
+    display: inline-block;
+    height: auto;
+}
+
+#bar-chart_GOOG {
+    float: right;
+}
+
+#chart_GOOG {
+    float: left;
 }
