@@ -4,8 +4,8 @@
 
 var content = [
     'scatter',
-    'jobs',
-    'arc'
+//    'jobs',
+//    'arc'
 ];
 
 var ved = {
@@ -13,6 +13,9 @@ var ved = {
     data: undefined,
     renderType: "svg"
 };
+
+var qrLeft = -1050;
+var qrTop =  10;
 
 var NUMBER_OF_FRAMES = 6;
 
@@ -37,6 +40,15 @@ function stringSplitter (data) {
 $(document).ready (function () {
     // Set base directory
     //vg.config.baseURL = "../";
+
+    $("body").append('<div id="qrAnim" class="qrcode" style="left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
+    var qrcode = new QRCode(document.getElementById("qrAnim"), {
+        width : 600,
+        height : 600,
+        id : "QRcode"
+    });
+
+
 
     content.forEach(function (filename) {
 
@@ -64,14 +76,9 @@ $(document).ready (function () {
 
             //add QR code
             var data = JSON.stringify(response.responseText);
-            var qrcode = new QRCode(document.getElementById("viz-"+ filename), {
-                width : 600,
-                height : 600,
-                id : "QR-"+ filename
-            });
 
             var gif = new GIF({
-                workers: 10,
+                workers: 20,
                 quality: 10
             });
 
@@ -81,9 +88,15 @@ $(document).ready (function () {
                 qrcode.makeCode(JSON.stringify(packets[i]));
 
                 // or a canvas element
-                gif.addFrame(document.getElementById("QR-"+ filename), {"copy": true, "delay": 200});
+                gif.addFrame(document.getElementById("QRcode"), {"copy": true, "delay": 200});
             }
 
+            gif.on('finished', function(blob) {
+                $('#viz-'+filename).append('<img id="QRCodesAnim-'+ filename +'" src='+URL.createObjectURL(blob)+'"</img>')
+
+            });
+
+            gif.render();
 
         });
 
