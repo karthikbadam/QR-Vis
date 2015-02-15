@@ -3,7 +3,7 @@
  */
 
 var googStock = "data/GOOG.csv";
-var stockList = "data/stocks.csv";
+var stockList = "data/stocks2.csv";
 
 var closeValues = [];
 var keys = null;

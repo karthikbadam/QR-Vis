@@ -154,13 +154,13 @@ function initCanvas(w, h) {
 }
 
 
-var counter = 0;
+var c = 0;
 
 function decodeQR() {
 
-    console.log(counter);
+    console.log(c);
 
-    counter++;
+    c++;
 
     try {
 
@@ -174,7 +174,7 @@ function decodeQR() {
             console.log("qr code is:" + event.data);
             if (event.data != "")
                 read(event.data);
-        }
+        };
 
         // get image data
         var canvas_qr = document.getElementById("qr-canvas");
@@ -310,13 +310,13 @@ function captureToCanvas() {
             gCtx.drawImage(v, 0, 0, gCanvas.width, gCanvas.height);
             if (!captureCanvas)
 
-                setTimeout(captureToCanvas, 40);
+                setTimeout(captureToCanvas, 150);
 
         }
         catch (e) {
             console.log(e);
             if (!captureCanvas)
-                setTimeout(captureToCanvas, 40);
+                setTimeout(captureToCanvas, 150);
         };
     }
 }
@@ -378,7 +378,7 @@ function read(a) {
             messagePassed = messagePassed + msg[i].s;
         }
         alert(messagePassed);
-        allLoaded = false;
+        //allLoaded = false;
     }
     //console.log("Frame: "+message.l+" ;Total:"+message.t);
 }
@@ -533,7 +533,7 @@ videoSelect.onchange = replaceWebcam;
 //}
 
 function initiate () {
-    if (isCanvasSupported() && window.File && window.FileReader && typeof MediaStreamTrack != 'undefined') {
+if  (isCanvasSupported() && window.File && window.FileReader && typeof MediaStreamTrack != 'undefined') {
 
         setwebcam();
         var width = $(document).width();

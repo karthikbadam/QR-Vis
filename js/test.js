@@ -106,27 +106,27 @@ $(document).ready(function() {
     qrcode.makeCode(JSON.stringify(message[0]));
 
     // or a canvas element
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 200});
 
     qrcode.makeCode(JSON.stringify(message[1]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 200});
 
     qrcode.makeCode(JSON.stringify(message[2]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 200});
 
     qrcode.makeCode(JSON.stringify(message[3]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 200});
 
     qrcode.makeCode(JSON.stringify(message[4]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 200});
 
     qrcode.makeCode(JSON.stringify(message[5]));
 
-    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 300});
+    gif.addFrame(document.getElementById("karthikIsAwesome"), {"copy": true, "delay": 200});
 
 
     var characterCount = 0;
