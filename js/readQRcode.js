@@ -171,9 +171,12 @@ function decodeQR() {
         var worker = new Worker("js/worker.js");
 
         worker.onmessage = function(event) {
-            console.log("qr code is:" + event.data);
-            if (event.data != "")
+            if (event.data != "") {
+                console.log("qr code read");
                 read(event.data);
+            } else
+                console.log("qr code read empty");
+
         };
 
         // get image data
@@ -199,7 +202,7 @@ function decodeQR() {
 
     if (!allLoaded) {
 
-       setTimeout(decodeQR, 150);
+       setTimeout(decodeQR, 250 );
     }
 }
 
@@ -310,13 +313,13 @@ function captureToCanvas() {
             gCtx.drawImage(v, 0, 0, gCanvas.width, gCanvas.height);
             if (!captureCanvas)
 
-                setTimeout(captureToCanvas, 150);
+                setTimeout(captureToCanvas, 220);
 
         }
         catch (e) {
             console.log(e);
             if (!captureCanvas)
-                setTimeout(captureToCanvas, 150);
+                setTimeout(captureToCanvas, 220);
         };
     }
 }

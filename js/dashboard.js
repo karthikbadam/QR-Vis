@@ -21,16 +21,19 @@ var NUMBER_OF_FRAMES = 6;
 
 function stringSplitter (data) {
 
-    var size = Math.ceil(data.length/NUMBER_OF_FRAMES);
+    var size = Math.floor(data.length/NUMBER_OF_FRAMES);
     var returnArray = new Array(NUMBER_OF_FRAMES);
     var offset;
 
     for (var i = 0; i < NUMBER_OF_FRAMES; i++) {
-        offset = i * NUMBER_OF_FRAMES;
+        offset = i * size;
+
         if (i == NUMBER_OF_FRAMES - 1)
-            returnArray[i] = data.substr(offset, data.length - 1);
+            returnArray[i] = data.substr(offset, data.length - offset);
         else
-            returnArray[i] = data.substr(offset, offset + NUMBER_OF_FRAMES);
+            returnArray[i] = data.substr(offset, size);
+
+        console.log(i+":"+returnArray[i].length +":" + returnArray[i]);
     }
 
     return returnArray;
@@ -41,7 +44,7 @@ $(document).ready (function () {
     // Set base directory
     //vg.config.baseURL = "../";
 
-    $("body").append('<div id="qrAnim" class="qrcode" style="left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
+    $("body").append('<div id="qrAnim" class="qrcode" style= "position: absolute; left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
     var qrcode = new QRCode(document.getElementById("qrAnim"), {
         width : 600,
         height : 600,
@@ -75,24 +78,33 @@ $(document).ready (function () {
             });
 
             //add QR code
-            var data = JSON.stringify(response.responseText);
+            var data = JSON.stringify(JSONC.compress( JSON.parse(response.responseText) ));
+
+            //JSON.stringify(response.responseText);
+            console.log(data.length);
 
             var gif = new GIF({
-                workers: 20,
+                workers: 40,
                 quality: 10
             });
 
             var packets = stringSplitter(data);
 
             for (var i = 0; i < packets.length; i++) {
-                qrcode.makeCode(JSON.stringify(packets[i]));
+
+                var d = {};
+                d.l = i + 1;
+                d.t = packets.length;
+                d.s = String(packets[i]);
+
+                qrcode.makeCode(JSON.stringify(d));
 
                 // or a canvas element
-                gif.addFrame(document.getElementById("QRcode"), {"copy": true, "delay": 200});
+                gif.addFrame(document.getElementById("QRcode"), {"copy": true, "delay": 300});
             }
 
             gif.on('finished', function(blob) {
-                $('#viz-'+filename).append('<img id="QRCodesAnim-'+ filename +'" src='+URL.createObjectURL(blob)+'"</img>')
+                $('#viz-'+filename).append('<img id="QRCodesAnim-'+ filename +'" style="padding: 100px;" src="'+URL.createObjectURL(blob)+'" </img>')
 
             });
 
