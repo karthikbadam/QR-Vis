@@ -17,7 +17,7 @@ var ved = {
 var qrLeft = -1050;
 var qrTop =  10;
 
-var NUMBER_OF_FRAMES = 6;
+var NUMBER_OF_FRAMES = 10;
 
 function stringSplitter (data) {
 
@@ -46,8 +46,8 @@ $(document).ready (function () {
 
     $("body").append('<div id="qrAnim" class="qrcode" style= "position: absolute; left:'+ qrLeft +'px; top:' + qrTop + 'px;"></div>')
     var qrcode = new QRCode(document.getElementById("qrAnim"), {
-        width : 600,
-        height : 600,
+        width : 300,
+        height : 300,
         id : "QRcode"
     });
 
@@ -78,7 +78,10 @@ $(document).ready (function () {
             });
 
             //add QR code
-            var data = JSON.stringify(JSONC.compress( JSON.parse(response.responseText) ));
+            //var data = JSON.stringify(JSONC.compress( JSON.parse(response.responseText) ));
+            var data = JSON.stringify(JSON.parse(response.responseText));
+
+
 
             //JSON.stringify(response.responseText);
             console.log(data.length);

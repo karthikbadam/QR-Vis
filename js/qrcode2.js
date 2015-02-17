@@ -61,8 +61,8 @@ qrcode.decode = function(src){
         //qrcode.imagedata = context.getImageData(0, 0, qrcode.width, qrcode.height);
 
         qrcode.result = qrcode.process(context2);
-        //if(qrcode.callback!=null)
-          //  qrcode.callback(qrcode.result);
+        if(qrcode.callback!=null)
+            qrcode.callback(qrcode.result);
 
         canvas_qr2.remove();
 
