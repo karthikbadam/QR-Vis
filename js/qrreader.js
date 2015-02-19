@@ -93,8 +93,8 @@ qrcode.process = function(ctx){
 
     var start = new Date().getTime();
 
-    var image = qrcode.grayScaleToBitmap(qrcode.grayscale());
-    //var image = qrcode.binarize(128);
+   // var image = qrcode.grayScaleToBitmap(qrcode.grayscale());
+    var image = qrcode.binarize(108);
 
     if(qrcode.debug)
     {

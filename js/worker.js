@@ -43,6 +43,7 @@ self.onmessage = function(event) {
         resp = qrcode.process();
     } catch(e){
         resp = '';
+        console.log(e); 
     }
 
     postMessage(resp);

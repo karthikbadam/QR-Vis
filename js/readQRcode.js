@@ -171,6 +171,7 @@ function decodeQR() {
         var worker = new Worker("js/worker.js");
 
         worker.onmessage = function(event) {
+            c--; 
             if (event.data != "") {
                 console.log("qr code read");
                 read(event.data);
@@ -202,7 +203,7 @@ function decodeQR() {
 
     if (!allLoaded) {
 
-       setTimeout(decodeQR, 250 );
+       setTimeout(decodeQR, 100 );
     }
 }
 
@@ -313,13 +314,13 @@ function captureToCanvas() {
             gCtx.drawImage(v, 0, 0, gCanvas.width, gCanvas.height);
             if (!captureCanvas)
 
-                setTimeout(captureToCanvas, 220);
+                setTimeout(captureToCanvas, 120);
 
         }
         catch (e) {
             console.log(e);
             if (!captureCanvas)
-                setTimeout(captureToCanvas, 220);
+                setTimeout(captureToCanvas, 120);
         };
     }
 }
@@ -380,7 +381,7 @@ function read(a) {
         for (var i = 0; i < total; i++) {
             messagePassed = messagePassed + msg[i].s;
         }
-        alert(messagePassed);
+        alert(messagePassed);alert(JSON.stringify(jsonpack.unpack(messagePassed)))
         //allLoaded = false;
     }
     //console.log("Frame: "+message.l+" ;Total:"+message.t);
