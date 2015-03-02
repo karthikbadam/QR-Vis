@@ -74,8 +74,7 @@ function drop(e) {
     var files = dt.files;
     if (files.length > 0) {
         handleFiles(files);
-    }
-    else if (dt.getData('URL')) {
+    } else if (dt.getData('URL')) {
         qrcode.decode(dt.getData('URL'));
     }
 }
@@ -110,31 +109,31 @@ function initCanvas(w, h) {
 
     var cropper = new CroppingTool();
 
-//    gCanvas.addEventListener('click', function () {
-//
-//        try {
-//            //captureCanvas = true;
-//            var decoded = qrcode.decode();
-//        }
-//
-//        catch (e) {
-//            console.log(e);
-//        };
-//
-//    }, false);
-//
-//    gCanvas.addEventListener('touchstart', function () {
-//
-//        try {
-//            //captureCanvas = true;
-//            var decoded = qrcode.decode();
-//        }
-//
-//        catch (e) {
-//            console.log(e);
-//        };
-//
-//    }, false);
+    //    gCanvas.addEventListener('click', function () {
+    //
+    //        try {
+    //            //captureCanvas = true;
+    //            var decoded = qrcode.decode();
+    //        }
+    //
+    //        catch (e) {
+    //            console.log(e);
+    //        };
+    //
+    //    }, false);
+    //
+    //    gCanvas.addEventListener('touchstart', function () {
+    //
+    //        try {
+    //            //captureCanvas = true;
+    //            var decoded = qrcode.decode();
+    //        }
+    //
+    //        catch (e) {
+    //            console.log(e);
+    //        };
+    //
+    //    }, false);
 
     gCanvas.addEventListener('mousedown', cropper.start, false);
     gCanvas.addEventListener('touchstart', cropper.start, false);
@@ -147,7 +146,7 @@ function initCanvas(w, h) {
 
 
     $("body").append('<button id="readQR">Capture</button>');
-    $('#readQR').click(function (){
+    $('#readQR').click(function () {
         decodeQR();
 
     });
@@ -167,46 +166,44 @@ function decodeQR() {
         // single thread programming for wimps
         var decoded = qrcode.decode();
 
-//        //using web workers!
-//        var worker = new Worker("js/worker.js");
-//
-//        worker.onmessage = function(event) {
-//            if (event.data != "") {
-//                console.log("qr code read");
-//                read(event.data);
-//            } else
-//                console.log("qr code read empty");
-//
-//        };
-//
-//        // get image data
-//        var canvas_qr = document.getElementById("qr-canvas");
-//        var context = canvas_qr.getContext('2d');
-//
-//        var offset = $('#highlightRect').offset();
-//        var clipperWidth = $('#highlightRect').width();
-//        var clipperHeight = $('#highlightRect').height();
-//
-//        var data = {};
-//
-//        var imagedata = context.getImageData(offset.left, offset.top, clipperWidth, clipperHeight);
-//        data.width = clipperWidth;
-//        data.height = clipperHeight;
-//
-//        worker.postMessage(imagedata, [imagedata.data.buffer]);
-    }
-
-    catch (e) {
+        //        //using web workers!
+        //        var worker = new Worker("js/worker.js");
+        //
+        //        worker.onmessage = function(event) {
+        //            if (event.data != "") {
+        //                console.log("qr code read");
+        //                read(event.data);
+        //            } else
+        //                console.log("qr code read empty");
+        //
+        //        };
+        //
+        //        // get image data
+        //        var canvas_qr = document.getElementById("qr-canvas");
+        //        var context = canvas_qr.getContext('2d');
+        //
+        //        var offset = $('#highlightRect').offset();
+        //        var clipperWidth = $('#highlightRect').width();
+        //        var clipperHeight = $('#highlightRect').height();
+        //
+        //        var data = {};
+        //
+        //        var imagedata = context.getImageData(offset.left, offset.top, clipperWidth, clipperHeight);
+        //        data.width = clipperWidth;
+        //        data.height = clipperHeight;
+        //
+        //        worker.postMessage(imagedata, [imagedata.data.buffer]);
+    } catch (e) {
         console.log(e);
     };
 
     if (!allLoaded) {
 
-       setTimeout(decodeQR, 90 );
+        setTimeout(decodeQR, 90);
     }
 }
 
-function CroppingTool () {
+function CroppingTool() {
 
     var _self = this;
     var offset = $('#qr-canvas').offset();
@@ -239,7 +236,10 @@ function CroppingTool () {
             $('body').append('<div id="highlightRect" style="background-color: rgba(255, 170, 170, 0.2); border: solid 1px #222; position: absolute; z-index: 100;"></div>');
             $('#highlightRect').width(5);
             $('#highlightRect').height(5);
-            $('#highlightRect').offset({left: x, top: y});
+            $('#highlightRect').offset({
+                left: x,
+                top: y
+            });
         }
 
         _self.started = true;
@@ -294,7 +294,10 @@ function CroppingTool () {
             if (y < _self.starty)
                 top = y;
 
-            $('#highlightRect').offset({left: left, top: top});
+            $('#highlightRect').offset({
+                left: left,
+                top: top
+            });
             $('#highlightRect').width(Math.abs(x - _self.startx));
             $('#highlightRect').height(Math.abs(y - _self.starty));
 
@@ -315,8 +318,7 @@ function captureToCanvas() {
 
                 setTimeout(captureToCanvas, 130);
 
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e);
             if (!captureCanvas)
                 setTimeout(captureToCanvas, 130);
@@ -344,7 +346,7 @@ function read(a) {
     console.log("read frame");
 
     captureCanvas = false;
-    var message =  JSON.parse(a);
+    var message = JSON.parse(a);
 
     var total = message.t;
 
@@ -375,7 +377,7 @@ function read(a) {
             counter++;
     }
 
-    loader.setProgress(counter/total);
+    loader.setProgress(counter / total);
 
     if (check) {
         allLoaded = true;
@@ -405,8 +407,7 @@ function success(stream) {
     } else if (moz) {
         v.mozSrcObject = stream;
         v.play();
-    }
-    else
+    } else
         v.src = stream;
     gUM = true;
 
@@ -432,19 +433,21 @@ function setwebcam() {
 
     var audioSource = audioSelect.value;
     var videoSource = videoSelect.value;
-//    var constraints = {
-//        audio: {
-//            optional: [{sourceId: audioSource}]
-//        },
-//        video: {
-//            optional: [{sourceId: videoSource}]
-//        }
-//    };
+    //    var constraints = {
+    //        audio: {
+    //            optional: [{sourceId: audioSource}]
+    //        },
+    //        video: {
+    //            optional: [{sourceId: videoSource}]
+    //        }
+    //    };
 
     var constraints = {
         audio: false,
         video: {
-            optional: [{sourceId: videoSource}]
+            optional: [{
+                sourceId: videoSource
+            }]
         }
     };
 
@@ -455,12 +458,40 @@ function setwebcam() {
     } else if (n.webkitGetUserMedia) {
 
         webkit = true;
+
         n.webkitGetUserMedia(constraints, success, error);
 
     } else if (n.mozGetUserMedia) {
 
         moz = true;
-        n.mozGetUserMedia(constraints, success, error);
+
+        //get camera properties
+
+        var options = {
+            camera: navigator.mozCameras.getListOfCameras()[0]
+
+        }
+
+        n.mozCameras.getCamera(options, onAccessCamera);
+
+        function onFocusPossible(success) {
+            if (success) {
+                console.log("The image has been focused");
+            } else {
+                console.log("The image has not been focused");
+            }
+        }
+
+        function onFocusNotPossible(error) {
+            console.log("The camera is not able to focus anything");
+            console.log(error);
+        }
+
+        function onAccessCamera(camera) {
+            camera.autoFocus(onFocusPossible, onFocusNotPossible);
+        };
+
+        //n.mozGetUserMedia(constraints, success, error);
 
     }
 
@@ -486,7 +517,9 @@ function replaceWebcam() {
     var constraints = {
         audio: false,
         video: {
-            optional: [{sourceId: videoSource}]
+            optional: [{
+                sourceId: videoSource
+            }]
         }
     };
 
@@ -538,8 +571,8 @@ videoSelect.onchange = replaceWebcam;
 //    stype = 2;
 //}
 
-function initiate () {
-if  (isCanvasSupported() && window.File && window.FileReader && typeof MediaStreamTrack != 'undefined') {
+function initiate() {
+    if (isCanvasSupported() && window.File && window.FileReader && typeof MediaStreamTrack != 'undefined') {
 
         setwebcam();
         var width = $(document).width();
@@ -560,9 +593,9 @@ if  (isCanvasSupported() && window.File && window.FileReader && typeof MediaStre
 }
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-    $('#captureButton').click(function() {
+    $('#captureButton').click(function () {
 
         //show video if not present
         if (!$('#outdiv').html()) {
@@ -573,7 +606,7 @@ $(document).ready(function() {
 
     });
 
-    $('#analyzeButton').click(function() {
+    $('#analyzeButton').click(function () {
 
         //show blank screen for visualization
         if ($('#outdiv').html()) {
