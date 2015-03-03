@@ -474,6 +474,7 @@ function setwebcam() {
 
         n.mozCameras.getCamera(options, onAccessCamera);
 
+
         function onFocusPossible(success) {
             if (success) {
                 console.log("The image has been focused");
