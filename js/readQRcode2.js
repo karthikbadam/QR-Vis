@@ -109,31 +109,6 @@ function initCanvas(w, h) {
 
     var cropper = new CroppingTool();
 
-    //    gCanvas.addEventListener('click', function () {
-    //
-    //        try {
-    //            //captureCanvas = true;
-    //            var decoded = qrcode.decode();
-    //        }
-    //
-    //        catch (e) {
-    //            console.log(e);
-    //        };
-    //
-    //    }, false);
-    //
-    //    gCanvas.addEventListener('touchstart', function () {
-    //
-    //        try {
-    //            //captureCanvas = true;
-    //            var decoded = qrcode.decode();
-    //        }
-    //
-    //        catch (e) {
-    //            console.log(e);
-    //        };
-    //
-    //    }, false);
 
     gCanvas.addEventListener('mousedown', cropper.start, false);
     gCanvas.addEventListener('touchstart', cropper.start, false);
