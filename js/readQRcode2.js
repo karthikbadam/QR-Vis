@@ -126,10 +126,7 @@ function initCanvas(w, h) {
 
     });
 }
-
-
 var c = 0;
-
 function decodeQR() {
 
     console.log(c);
@@ -141,33 +138,7 @@ function decodeQR() {
         // single thread programming for wimps
         var decoded = qrcode.decode();
 
-        //        //using web workers!
-        //        var worker = new Worker("js/worker.js");
-        //
-        //        worker.onmessage = function(event) {
-        //            if (event.data != "") {
-        //                console.log("qr code read");
-        //                read(event.data);
-        //            } else
-        //                console.log("qr code read empty");
-        //
-        //        };
-        //
-        //        // get image data
-        //        var canvas_qr = document.getElementById("qr-canvas");
-        //        var context = canvas_qr.getContext('2d');
-        //
-        //        var offset = $('#highlightRect').offset();
-        //        var clipperWidth = $('#highlightRect').width();
-        //        var clipperHeight = $('#highlightRect').height();
-        //
-        //        var data = {};
-        //
-        //        var imagedata = context.getImageData(offset.left, offset.top, clipperWidth, clipperHeight);
-        //        data.width = clipperWidth;
-        //        data.height = clipperHeight;
-        //
-        //        worker.postMessage(imagedata, [imagedata.data.buffer]);
+      
     } catch (e) {
         console.log(e);
     };
