@@ -413,32 +413,33 @@ function setwebcam() {
 
         //get camera properties
 
-        var options = {
-            camera: navigator.mozCameras.getListOfCameras()[0]
+////        var options = {
+////            camera: navigator.mozCameras.getListOfCameras()[0]
+////
+////        }
+//
+//        n.mozCameras.getCamera(options, onAccessCamera);
+//
+//
+//        function onFocusPossible(success) {
+//            if (success) {
+//                
+//                console.log("The image has been focused");
+//            } else {
+//                console.log("The image has not been focused");
+//            }
+//        }
+//
+//        function onFocusNotPossible(error) {
+//            console.log("The camera is not able to focus anything");
+//            console.log(error);
+//        }
+//
+//        function onAccessCamera(camera) {
+//            camera.autoFocus(onFocusPossible, onFocusNotPossible);
+//        };
 
-        }
-
-        n.mozCameras.getCamera(options, onAccessCamera);
-
-
-        function onFocusPossible(success) {
-            if (success) {
-                console.log("The image has been focused");
-            } else {
-                console.log("The image has not been focused");
-            }
-        }
-
-        function onFocusNotPossible(error) {
-            console.log("The camera is not able to focus anything");
-            console.log(error);
-        }
-
-        function onAccessCamera(camera) {
-            camera.autoFocus(onFocusPossible, onFocusNotPossible);
-        };
-
-        //n.mozGetUserMedia(constraints, success, error);
+        n.mozGetUserMedia(constraints, success, error);
 
     }
 
